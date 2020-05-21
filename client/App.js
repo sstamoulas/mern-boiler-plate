@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { hot } from 'react-hot-loader'
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { indigo, pink } from 'material-ui/styles/colors'
@@ -24,14 +24,12 @@ const theme = createMuiTheme({
 })
 
 
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Hello!</h1>
-      </div>
-    )
-  }
+const App = () => {
+  <BrowserRouter>
+    <MuiThemeProvider theme={theme}>
+      <MainRouter/>
+    </MuiThemeProvider>
+  </BrowserRouter>
 }
 
 export default hot(module)(App)
