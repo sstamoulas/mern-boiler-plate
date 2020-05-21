@@ -76,3 +76,5 @@ const remove = (params, credentials) => {
     console.log(err)
   })
 }
+
+export { create, list, read, update, remove }
