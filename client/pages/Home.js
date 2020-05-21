@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { Card, CardContent, CardMedia, Typography } from '@material-ui/core'
@@ -24,6 +25,7 @@ const Home = (props) => {
 
   return (
     <div>
+      <Link to="/users">Users</Link>
       <Card className={classes.card}>
         <Typography variant="h5" component="h2" className={classes.title}>
           Home Page
