@@ -45,4 +45,4 @@ class Home extends Component {
   }
 }
 
-export default Home
+export default withStyles(styles)(Home)
