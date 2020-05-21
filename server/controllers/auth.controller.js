@@ -13,7 +13,7 @@ const signin = (req, res) => {
       })
     }
 
-    if (!user.hasAuthorization(req.body.password)) {
+    if (!user.authenticate(req.body.password)) {
       return res.status(401).send({
         error: 'Email and password don\'t match.'
       })

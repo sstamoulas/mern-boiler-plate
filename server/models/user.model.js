@@ -43,7 +43,7 @@ UserSchema.methods = {
   encryptPassword: function(password) {
     if (!password) return ''
     try {
-      return crypto
+      return require('crypto')
         .createHmac('sha1', this.salt)
         .update(password)
         .digest('hex')
