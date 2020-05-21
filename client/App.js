@@ -1,9 +1,11 @@
 import React from 'react'
-import MainRouter from './MainRouter'
 import { BrowserRouter } from 'react-router-dom'
 import { hot } from 'react-hot-loader'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-import { indigo, pink } from 'material-ui/styles/colors'
+
+import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles'
+import { indigo, pink } from '@material-ui/core/colors'
+
+import MainRouter from './MainRouter'
 
 const theme = createMuiTheme({
   palette: {  
@@ -26,12 +28,12 @@ const theme = createMuiTheme({
 })
 
 
-const App = () => {
+const App = () => (
   <BrowserRouter>
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <MainRouter/>
-    </MuiThemeProvider>
+    </ThemeProvider>
   </BrowserRouter>
-}
+)
 
 export default hot(module)(App)

@@ -2,16 +2,10 @@ import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Home from './pages/Home'
 
-class MainRouter extends Component {
-  render() {
-    return (
-      <div>
-        <Switch>
-          <Route exact path="/" component={Home}/>
-        </Switch>
-      </div>
-    )
-  }
-}
+const MainRouter = () => (
+  <Switch>
+    <Route exact path="/" component={Home}/>
+  </Switch>
+)
 
 export default MainRouter

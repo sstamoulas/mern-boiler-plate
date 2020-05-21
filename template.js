@@ -6,8 +6,8 @@ export default () => {
         <meta charset="utf-8">
         <title>MERN Skeleton</title>
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       </head>
       <body>
         <div id="root"></div>
