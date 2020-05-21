@@ -26,6 +26,7 @@ const Home = (props) => {
   return (
     <div>
       <Link to="/users">Users</Link>
+      <Link to="/sign-up">Sign Up</Link>
       <Card className={classes.card}>
         <Typography variant="h5" component="h2" className={classes.title}>
           Home Page

@@ -24,7 +24,7 @@ const styles = (theme) => ({
   },
   title: {
     padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,
-    color: theme.palette.text.secondary
+    color: theme.palette.primary.main
   },
   media: {
     minHeight: 330
