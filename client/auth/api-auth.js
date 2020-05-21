@@ -16,4 +16,16 @@ const signin = (user) => {
   })
 }
 
-export { signin }
+const signout = (user) => {
+  return fetch('/auth/signout', {
+    method: 'GET'
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
+
+export { signin, signout }
