@@ -59,3 +59,20 @@ const update = (params, credentials, user) => {
     console.log(err)
   })
 }
+
+const remove = (params, credentials) => {
+  return fetch('/api/users/' + params.userId, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + credentials.t
+    }
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
