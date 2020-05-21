@@ -156,7 +156,7 @@ class SignUp extends Component {
           </DialogContent>
           <DialogActions>
             <Link to="/signin">
-              <Button color="primary" autoFocus="autoFocus" variant="raised">
+              <Button className={classes.submit} autoFocus="autoFocus" variant="raised">
                 Sign In
               </Button>
             </Link>
