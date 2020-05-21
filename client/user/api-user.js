@@ -12,3 +12,15 @@ const create = (user) => {
   })
   .catch((err) => console.log(err))
 }
+
+const list = () => {
+  return fetch('/api/users/', {
+    method: 'GET'
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+}
