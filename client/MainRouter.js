@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Home from './pages/Home'
 
-class router extends Component {
+class MainRouter extends Component {
   render() {
     return (
       <div>
@@ -14,4 +14,4 @@ class router extends Component {
   }
 }
 
-export default router
+export default MainRouter
