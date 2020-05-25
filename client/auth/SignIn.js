@@ -17,7 +17,7 @@ import {
   Typography 
 } from '@material-ui/core'
 
-import { signin } from './api-auth'
+import { signInApiCall } from './api-auth'
 import { authenticate } from './auth-helper'
 
 const styles = (theme) => ({
@@ -64,7 +64,7 @@ class SignIn extends Component {
       password: this.state.password || undefined
     }
 
-    signin(user)
+    signInApiCall(user)
     .then((data) => {
       if (data.error) 
         this.setState({error: data.error})

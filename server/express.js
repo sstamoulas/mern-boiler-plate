@@ -1,3 +1,7 @@
+import React from 'react'
+import ReactDOMServer from 'react-dom/server';
+import { StaticRouter } from "react-router-dom";
+import MainRouter from './../client/MainRouter'
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
@@ -5,6 +9,9 @@ import cookieParser from 'cookie-parser'
 import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
+import { SheetsRegistry, JssProvider } from 'react-jss'
+import { ThemeProvider, createMuiTheme, cretaeGenerateClassName } from '@material-ui/core/styles'
+import { indigo, pink } from '@material-ui/core/colors'
 
 import devBundle from './devBundle'
 import config from './../config/config'
@@ -41,7 +48,7 @@ app.use((err, req, res, next) => {
   }
 })
 
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   res.status(200).send(Template())
 })
 

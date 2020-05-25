@@ -1,4 +1,4 @@
-export const signin = (user) => {
+export const signInApiCall = (user) => {
   return fetch('/auth/sign-in/', {
     method: 'POST',
     headers: {

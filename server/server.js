@@ -4,6 +4,7 @@ import config from './../config/config'
 import app from './express'
 
 mongoose.Promise = global.Promise
+mongoose.set('useCreateIndex', true)
 mongoose.connect(config.mongoUri, {
   useUnifiedTopology: true,
   useNewUrlParser: true,

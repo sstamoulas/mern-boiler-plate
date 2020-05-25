@@ -13,7 +13,6 @@ import { Home } from '@material-ui/icons'
 import { isAuthenticated, signout } from './../auth/auth-helper'
 
 const isActive = (history, path) => {
-  console.log(history.location.pathname, path)
   if (history.location.pathname === path) 
     return { color: '#ff4081' }
   else
