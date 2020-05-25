@@ -23,7 +23,29 @@ import authRoutes from './routes/auth.routes'
 
 const app = express()
 const CURRENT_WORKING_DIR = process.cwd()
-
+const sheets = new SheetsRegistry()
+const generateClassName = cretaeGenerateClassName({
+  productionPrefix: 'c',
+})
+const theme = createMuiTheme({
+  palette: {  
+    primary: {  
+      light: '#757de8',  
+      main: '#3f51b5',  
+      dark: '#002984',  
+      contrastText: '#fff',
+    },
+    secondary: {  
+      light: '#ff79b0',  
+      main: '#ff4081',  
+      dark: '#c60055',  
+      contrastText: '#000',
+    },  
+    openTitle: indigo['400'],  
+    protectedTitle: pink['400'],  
+    type: 'light'
+  }
+})
 
 if(config.env === "development") {
   devBundle.compile(app, config.env)
