@@ -1,7 +1,7 @@
 const signin = (user) => {
-  return fetch('/auth/signin', {
+  return fetch('/auth/sign-in/', {
     method: 'POST',
-    haders: {
+    headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
@@ -17,7 +17,7 @@ const signin = (user) => {
 }
 
 const signout = (user) => {
-  return fetch('/auth/signout', {
+  return fetch('/auth/sign-out/', {
     method: 'GET'
   })
   .then((response) => {

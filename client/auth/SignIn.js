@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { 
@@ -17,7 +17,8 @@ import {
   Typography 
 } from '@material-ui/core'
 
-import { create } from './api-user'
+import { signin } from './api-auth'
+import { authenticate } from './auth-helper'
 
 const styles = (theme) => ({
   card: {
@@ -45,12 +46,11 @@ const styles = (theme) => ({
   },
 })
 
-class SignUp extends Component {
+class SignIn extends Component {
   state = { 
-    name: '',
     password: '',
     email: '',
-    open: false,
+    redirectToReferrer: false,
     error: '',
   }
 
@@ -60,25 +60,30 @@ class SignUp extends Component {
 
   clickSubmit = () => {
     const user = {
-      name: this.state.name || undefined,
       email: this.state.email || undefined,
       password: this.state.password || undefined
     }
 
-    create(user)
+    signin(user)
     .then((data) => {
       if (data.error) 
         this.setState({error: data.error})
       else
-        this.setState({
-          error: '', 
-          open: true
+        authenticate(data, () => {
+          this.setState({redirectToReferrer: true})
         })
     })
   }
 
   render() {
     const { classes } = this.props
+    const { from } = this.props.location.state || {
+      from: { pathname: '/' }
+    }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer)
+      return (<Redirect to={from} />)
 
     return (
       <div>
@@ -90,18 +95,8 @@ class SignUp extends Component {
               component="h2" 
               className={classes.title}
             >
-              Sign Up
+              Sign In
             </Typography>
-            <TextField 
-              id="name" 
-              label="Name"
-              className={classes.textField}
-              value={this.state.name}
-              onChange={this.handleChange('name')}
-              margin="normal"
-              fullWidth={true}
-            />
-            <br />
             <TextField 
               id="email" 
               label="Email"
@@ -147,28 +142,13 @@ class SignUp extends Component {
             </Button>
           </CardActions>
         </Card>
-        <Dialog open={this.state.open} disableBackdropClick={true}>
-          <DialogTitle>New Account</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              New Account Successfully Created.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Link to="/sign-in">
-              <Button className={classes.submit} autoFocus="autoFocus" raised="raised">
-                Sign In
-              </Button>
-            </Link>
-          </DialogActions>
-        </Dialog>
       </div>
     )
   }
 }
 
-SignUp.propTypes = {
+SignIn.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SignUp)
+export default withStyles(styles)(SignIn)
