@@ -51,7 +51,10 @@ class Profile extends Compoenent {
 
     read({
       userId
-    }, {t: jwt.token})
+    }, 
+    {
+      t: jwt.token
+    })
     .then((data) => {
       if (data.error)
         this.setState({ redirectToReferrer: true })
