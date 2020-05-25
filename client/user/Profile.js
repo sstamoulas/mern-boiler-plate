@@ -15,7 +15,7 @@ import {
   Typography 
 } from '@material-ui/core'
 import { Person, Edit } from '@material-ui/icons'
-import DeleteUser from './Users'
+import DeleteUser from './DeleteUser'
 
 import { read } from './api-user'
 import { isAuthenticated } from './../auth/auth-helper'
