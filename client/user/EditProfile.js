@@ -17,7 +17,8 @@ import {
   Typography 
 } from '@material-ui/core'
 
-import { update } from './api-user'
+import { isAuthenticated } from './../auth/auth-helper'
+import { read, update } from './api-user'
 
 const styles = (theme) => ({
   card: {
@@ -45,13 +46,38 @@ const styles = (theme) => ({
   },
 })
 
-class SignUp extends Component {
+class EditProfile extends Component {
   state = { 
+    redirectToProfile: false,
     name: '',
     password: '',
     email: '',
     open: false,
     error: '',
+  }
+
+  componentDidMount = () => {
+    this.init(this.props.match.params.userId)
+  }
+
+  init = (userId) => {
+    const jwt = isAuthenticated()
+
+    read({
+      userId
+    }, 
+    {
+      t: jwt.token
+    })
+    .then((data) => {
+      if (data.error)
+        this.setState({ redirectToReferrer: true })
+      else
+        this.setState({ 
+          name: data.name,
+          email: data.email,
+        })
+    })
   }
 
   handleChange = (name) => (event) => {
@@ -64,11 +90,11 @@ class SignUp extends Component {
     const user = {
       name: this.state.name || undefined,
       email: this.state.email || undefined,
-      password: this.state.password || undefined
+      password: this.state.password || undefined,
     }
 
     update({
-      userId: this.match.params.userId
+      userId: this.props.match.params.userId
     }, 
     {
       t: jwt.token
@@ -101,7 +127,7 @@ class SignUp extends Component {
               component="h2" 
               className={classes.title}
             >
-              Sign Up
+              Edit Profile
             </Typography>
             <TextField 
               id="name" 
@@ -178,8 +204,8 @@ class SignUp extends Component {
   }
 }
 
-SignUp.propTypes = {
+EditProfile.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SignUp)
+export default withStyles(styles)(EditProfile)

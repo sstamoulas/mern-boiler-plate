@@ -1,4 +1,4 @@
-const create = (user) => {
+export const create = (user) => {
   return fetch('/api/users/', {
     method: 'POST',
     headers: {
@@ -13,7 +13,7 @@ const create = (user) => {
   .catch((err) => console.log(err))
 }
 
-const list = () => {
+export const list = () => {
   return fetch('/api/users/', {
     method: 'GET'
   })
@@ -25,7 +25,7 @@ const list = () => {
   })
 }
 
-const read = (params, credentials) => {
+export const read = (params, credentials) => {
   return fetch('/api/users/' + params.userId, {
     method: 'GET',
     headers: {
@@ -42,7 +42,7 @@ const read = (params, credentials) => {
   })
 }
 
-const update = (params, credentials, user) => {
+export const update = (params, credentials, user) => {
   return fetch('/api/users/' + params.userId, {
     method: 'PUT',
     headers: {
@@ -60,7 +60,7 @@ const update = (params, credentials, user) => {
   })
 }
 
-const remove = (params, credentials) => {
+export const remove = (params, credentials) => {
   return fetch('/api/users/' + params.userId, {
     method: 'DELETE',
     headers: {
@@ -76,5 +76,3 @@ const remove = (params, credentials) => {
     console.log(err)
   })
 }
-
-export { create, list, read, update, remove }

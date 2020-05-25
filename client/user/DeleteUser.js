@@ -14,7 +14,7 @@ import {
 import { Delete } from '@material-ui/icons'
 
 import { remove } from './api-user'
-import { signout } from './../auth/api-auth'
+import { isAuthenticated, signout } from './../auth/auth-helper'
 
 const styles = (theme) => ({
   card: {
@@ -43,9 +43,13 @@ const styles = (theme) => ({
 })
 
 class DeleteUser extends Component {
-  state = { 
-    redirect: false,
-    open: false,
+  constructor(props) {
+    super(props)
+
+    this.state = { 
+      redirect: false,
+      open: false,
+    }
   }
 
   clickButton = () => {

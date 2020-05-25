@@ -1,4 +1,4 @@
-import React, { Compoenent } from 'react'
+import React, { Component } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -35,14 +35,18 @@ const styles = (theme) => ({
   }
 })
 
-class Profile extends Compoenent {
-  state = { 
-    user: '',
-    redirectToSignin: false,
+class Profile extends Component {
+  constructor({ match }) {
+    super()
+    this.state = {
+      user: '',
+      redirectToSignin: false,
+    }
+
+    this.match = match
   }
 
   componentDidMount = () => {
-    console.log(this.props.match)
     this.init(this.props.match.params.userId)
   }
 
@@ -65,7 +69,7 @@ class Profile extends Compoenent {
 
   render() {
     const { classes } = this.props
-    const redirectToSignin = this.state.redirectToSignin
+    const { redirectToSignin, user } = this.state
 
     if (redirectToSignin) 
       return <Redirect to='/signin/' />
@@ -81,28 +85,26 @@ class Profile extends Compoenent {
                 </Avatar>
               </ListItemAvatar>
               <ListItemText 
-                primary={this.state.user.name} 
-                secondary={this.state.user.email} 
+                primary={user.name} 
+                secondary={user.email} 
+              />
+              <Divider variant="middle" />
+              <ListItemText 
+                primary={`Joined: ${(new Date(user.created)).toDateString()}`} 
               />
               {
                 isAuthenticated().user && 
-                isAuthenticated().user_id === this.state.user._id && (
+                isAuthenticated().user._id === user._id && (
                   <ListItemSecondaryAction>
-                    <Link to={`/user/edit/${this.state.user._id}`}>
+                    <Link to={`/user/edit/${user._id}`}>
                       <IconButton color='primary'>
                         <Edit />
                       </IconButton>
                     </Link>
-                    <DeleteUser userId={this.state.user._id} />
+                    <DeleteUser userId={user._id} />
                   </ListItemSecondaryAction>
                 )
               }
-              <Divider />
-              <ListItem>
-                <ListItemText 
-                  primary={`Joined: ${(new Date(this.state.user.created)).toDateString()}`} 
-                />
-              </ListItem>
             </ListItem>
           </List>
         </Paper>

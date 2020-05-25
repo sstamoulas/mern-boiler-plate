@@ -1,4 +1,4 @@
-const signin = (user) => {
+export const signin = (user) => {
   return fetch('/auth/sign-in/', {
     method: 'POST',
     headers: {
@@ -16,7 +16,7 @@ const signin = (user) => {
   })
 }
 
-const signout = (user) => {
+export const signOutApiCall = () => {
   return fetch('/auth/sign-out/', {
     method: 'GET'
   })
@@ -27,5 +27,3 @@ const signout = (user) => {
     console.log(err)
   })
 }
-
-export { signin, signout }
