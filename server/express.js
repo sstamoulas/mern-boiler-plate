@@ -22,21 +22,6 @@ import authRoutes from './routes/auth.routes'
 const app = express()
 const CURRENT_WORKING_DIR = process.cwd()
 
-const renderFullPage = (html, css) => {
-  return `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <title>My page</title>
-        <style id="jss-server-side">${css}</style>
-      </head>
-      <body>
-        <div id="root">${html}</div>
-      </body>
-    </html>
-  `;
-}
-
 const handleRender = (req, res) => {
   const sheets = new ServerStyleSheets();
   const context = {}
@@ -50,11 +35,16 @@ const handleRender = (req, res) => {
     ),
   );
 
+  if (context.url) {
+    // Somewhere a `<Redirect>` was rendered
+    redirect(301, context.url);
+  }
+
   // Grab the CSS from the sheets.
   const css = sheets.toString();
 
   // Send the rendered page back to the client.
-  res.send(renderFullPage(html, css));
+  res.status(200).send(Template(html, css));
 }
 
 if(config.env === "development") {
