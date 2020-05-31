@@ -54,7 +54,7 @@ class Users extends Component {
         <List>
           {this.state.users.map((item, index) => {
             return (
-              <Link to={'/user/' + item._id} key={index}>
+              <Link to={`/user/${item._id}`} key={index}>
                 <ListItem button>
                   <ListItemAvatar>
                     <Avatar>

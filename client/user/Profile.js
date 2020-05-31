@@ -70,7 +70,7 @@ class Profile extends Component {
     const { redirectToSignin, user } = this.state
 
     if (redirectToSignin) {
-      return <Redirect to='/signin/' />
+      return <Redirect to='/sign-in' />
     }
     else {
       return (
