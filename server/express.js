@@ -1,19 +1,22 @@
 import React from 'react'
-import ReactDOMServer from 'react-dom/server';
-import { StaticRouter } from "react-router-dom";
+import ReactDOMServer from 'react-dom/server'
+import { StaticRouter, matchPath } from "react-router-dom"
 import express from 'express'
 import path from 'path'
 import bodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
+import Cookies from 'cookies'
 import compress from 'compression'
 import cors from 'cors'
 import helmet from 'helmet'
-import { ServerStyleSheets } from '@material-ui/core/styles';
+import jwt from 'jsonwebtoken'
+import { ServerStyleSheets } from '@material-ui/core/styles'
 
 import devBundle from './devBundle'
 import config from './../config/config'
 
-import MainRouter from './../client/MainRouter'
+import App from './../client/App'
+import Routes from './../client/routes'
 import Template from './../template'
 
 import userRoutes from './routes/user.routes'
@@ -22,29 +25,23 @@ import authRoutes from './routes/auth.routes'
 const app = express()
 const CURRENT_WORKING_DIR = process.cwd()
 
-const handleRender = (req, res) => {
-  const sheets = new ServerStyleSheets();
-  const context = {}
+const handleRender = (req, res, context) => {
+  const sheets = new ServerStyleSheets()
 
   // Render the component to a string.
   const html = ReactDOMServer.renderToString(
     sheets.collect(
       <StaticRouter location={req.url} context={context}>
-        <MainRouter />
+        <App />
       </StaticRouter>
     ),
-  );
-
-  if (context.url) {
-    // Somewhere a `<Redirect>` was rendered
-    redirect(301, context.url);
-  }
+  )
 
   // Grab the CSS from the sheets.
-  const css = sheets.toString();
+  const css = sheets.toString()
 
   // Send the rendered page back to the client.
-  res.status(200).send(Template(html, css));
+  return Template(html, css)
 }
 
 if(config.env === "development") {
@@ -52,6 +49,7 @@ if(config.env === "development") {
 }
 
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
+app.use('/favicon.ico', express.static(path.join(CURRENT_WORKING_DIR, 'client/assets/images/favicon.ico')))
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true}))
@@ -70,7 +68,32 @@ app.use((err, req, res, next) => {
   }
 })
 
-// This is fired every time the server-side receives a request.
-app.use(handleRender);
+app.get('*', (req, res) => {
+  let context = {}
+  let cookies = new Cookies(req, res)
+
+  const currentRoute = Routes.find(route => matchPath(req.url, route)) || {}
+
+  jwt.verify(cookies.get('t'), config.jwtSecret, function(err, decoded) {
+    if(currentRoute.usesAuthentication && !!cookies.get('t')) {
+      context = { id: decoded._id, authenticated: true }
+    }
+    else if (currentRoute.exact) {
+      context = { id: 1, authenticated: false }
+    }
+    else {
+      context = { id: 1 }
+    }
+  });
+
+  const content = handleRender(req, res, context)
+
+  if (currentRoute.usesAuthentication && context.authenticated == undefined) {
+    res.redirect(303, '/sign-in')
+  }
+  else {
+    res.status(200).send(content)
+  }
+})
 
 export default app

@@ -71,7 +71,7 @@ class EditProfile extends Component {
     })
     .then((data) => {
       if (data.error)
-        this.setState({ redirectToReferrer: true })
+        this.setState({ redirectToProfile: true })
       else
         this.setState({ 
           name: data.name,

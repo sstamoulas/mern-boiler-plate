@@ -21,29 +21,25 @@ import { read } from './api-user'
 import { isAuthenticated } from './../auth/auth-helper'
 
 const styles = (theme) => ({
-  card: {
-    maxWidth: 600,
-    margin: 'auto',
-    marginTop: theme.spacing(5)
-  },
   title: {
     padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(2)}px`,
     color: theme.palette.primary.main
   },
-  media: {
-    minHeight: 330
+  margin: {
+    marginLeft: '15px',
+  },
+  divider: {
+    width: '100%',
   }
 })
 
 class Profile extends Component {
-  constructor({ match }) {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       user: '',
       redirectToSignin: false,
     }
-
-    this.match = match
   }
 
   componentDidMount = () => {
@@ -60,10 +56,12 @@ class Profile extends Component {
       t: jwt.token
     })
     .then((data) => {
-      if (data.error)
-        this.setState({ redirectToReferrer: true })
-      else
+      if (data.error) {
+        this.setState({ redirectToSignin: true })
+      }
+      else {
         this.setState({ user: data })
+      }
     })
   }
 
@@ -71,14 +69,15 @@ class Profile extends Component {
     const { classes } = this.props
     const { redirectToSignin, user } = this.state
 
-    if (redirectToSignin) 
+    if (redirectToSignin) {
       return <Redirect to='/signin/' />
-    else
+    }
+    else {
       return (
         <Paper className={classes.root} elevation={4}>
           <Typography type='title' className={classes.title}>Profile</Typography>
           <List dense>
-            <ListItem>
+            <ListItem className={classes.margin}>
               <ListItemAvatar>
                 <Avatar>
                   <Person />
@@ -87,10 +86,6 @@ class Profile extends Component {
               <ListItemText 
                 primary={user.name} 
                 secondary={user.email} 
-              />
-              <Divider variant="middle" />
-              <ListItemText 
-                primary={`Joined: ${(new Date(user.created)).toDateString()}`} 
               />
               {
                 isAuthenticated().user && 
@@ -106,9 +101,18 @@ class Profile extends Component {
                 )
               }
             </ListItem>
+            <ListItem>
+              <Divider variant="fullWidth" className={classes.divider} />
+            </ListItem>
+            <ListItem className={classes.margin}>
+              <ListItemText 
+                primary={`Joined: ${(new Date(user.created)).toDateString()}`} 
+              />
+            </ListItem>
           </List>
         </Paper>
       )
+    }
   }
 }
 
